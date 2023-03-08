@@ -21,6 +21,10 @@ function getPlayerIdsFromStorage(){
     }
 }
 
+function isPlayerIdExists(id){
+    return getPlayerIdsFromStorage().included(id)
+}
+
 function addPlayerIdToStorage(id){
     if (window.localStorage) {
         let oldIds = getPlayerIdsFromStorage()
@@ -56,7 +60,11 @@ window.onload = function(){
     updatePlayerList()
     let playerId = document.getElementById("playerId")
     document.getElementById("addPlayerId").onclick = function(){
+        if(isPlayerIdExists(playerId.value)){
+            return 
+        }
         addPlayerIdToStorage(playerId.value)
+        playerId.value = ""
         updatePlayerList()
     }
 }
