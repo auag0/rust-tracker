@@ -13,12 +13,19 @@ function getPlayerIdsFromStorage(){
     if (window.localStorage) {
         let data = localStorage.getItem("playerIds")
         if(data == null) { return [] }
-        let json = JSON.parse(data)
-        let playerIds = json.playerIds
+        let playerIds = JSON.parse(data)
         if(playerIds == null) { return [] }
         return playerIds
     } else {
         return []
+    }
+}
+
+function addPlayerIdToStorage(id){
+    if (window.localStorage) {
+        let oldIds = getPlayerIdsFromStorage()
+        oldIds.push(id)
+        localStorage.setItem("playerIds", JSON.stringify(oldIds))
     }
 }
 
@@ -32,4 +39,9 @@ async function updatePlayerList(){
 
 window.onload = function(){
     updatePlayerList()
+    let playerId = document.getElementById("playerId")
+    document.getElementById("addPlayerId").onclick = function(){
+        addPlayerIdToStorage(playerId.value)
+        updatePlayerList()
+    }
 }
