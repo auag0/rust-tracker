@@ -29,7 +29,15 @@ function addPlayerIdToStorage(id){
     }
 }
 
+function clearPlayerList(){
+    let list = document.getElementById("players")
+    while(list.firstChild){
+        list.removeChild(list.firstChild);
+    }
+}
+
 async function updatePlayerList(){
+    clearPlayerList()
     for (let playerId of getPlayerIdsFromStorage()){
         let data = await getPlayerInfo(playerId)
         let playerName = data.data.attributes.name
@@ -38,7 +46,9 @@ async function updatePlayerList(){
         if(onlineServer != null){
             serverName = onlineServer.attributes.name
         }
-        console.log(playerName+": "+serverName)
+        let text = document.createElement("p")
+        text.innerText = playerName+": "+serverName
+        document.getElementById("players").appendChild(text)
     }
 }
 
