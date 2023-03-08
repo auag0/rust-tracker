@@ -32,8 +32,13 @@ function addPlayerIdToStorage(id){
 async function updatePlayerList(){
     for (let playerId of getPlayerIdsFromStorage()){
         let data = await getPlayerInfo(playerId)
-        let onlineServers = data.included.filter(item => item.meta.online == true && item.relationships.game.data.id == "rust")
-        console.log(onlineServers)
+        let playerName = data.data.attributes.name
+        let onlineServer = data.included.filter(item => item.meta.online == true && item.relationships.game.data.id == "rust")[0]
+        var serverName = "offline"
+        if(onlineServer != null){
+            serverName = onlineServer.attributes.name
+        }
+        console.log(playerName+": "+serverName)
     }
 }
 
